@@ -1,0 +1,9 @@
+services:
+  web:
+    image: lab2-nginx:v1
+    ports:
+      - "8082:80"
+  second-web:
+    image: nginx:stable-alpine
+    ports:
+      - "8083:80"

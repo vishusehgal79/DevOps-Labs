@@ -1,0 +1,27 @@
+name: Deploy to Minikube
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '01_Kubernetes_Deployment/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Kubernetes cluster
+        run: kubectl get nodes
+        shell: powershell
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f 01_Kubernetes_Deployment/deployment.yaml
+          kubectl apply -f 01_Kubernetes_Deployment/service.yaml
+          kubectl rollout status deployment/nginx-deployment
+        shell: powershell

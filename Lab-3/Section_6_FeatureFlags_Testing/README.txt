@@ -1,0 +1,1 @@
+Install packages in a virtual environment using pip install -r requirements.txt. Start the app with FEATURE_FLAG=true python app.py. Run the load test with ab -n 100 -c 10 http://127.0.0.1:5000/. Start the selenium/standalone-chrome container on port 4444, then run python test_app.py. The Selenium script expects the feature flag to be ENABLED.

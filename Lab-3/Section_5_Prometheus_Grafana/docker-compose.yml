@@ -1,0 +1,20 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: lab5-prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: lab5-grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: lab5-node-exporter
+    ports:
+      - "9100:9100"

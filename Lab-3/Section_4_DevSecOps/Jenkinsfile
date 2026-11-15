@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+        stage('Install Security Scanner') {
+            steps {
+                sh '''
+                    mkdir -p security-reports
+                    python3 -m pip install --user --break-system-packages pip-audit
+                '''
+            }
+        }
+        stage('Dependency Vulnerability Scan') {
+            steps {
+                sh '''
+                    python3 -m pip_audit --format json > security-reports/audit-report.json || true
+                    echo "Vulnerability scan completed"
+                    cat security-reports/audit-report.json
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'security-reports/**',
+                             allowEmptyArchive: true
+        }
+    }
+}
